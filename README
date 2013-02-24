@@ -1,0 +1,395 @@
+Welcome to SLAMBidding! 
+
+Version: 0.0, Date: January, 2009
+Author: Sam Lichtenstein
+Copyright 2009, All rights reserved
+
+Below we explain the basics of how to use the SLAMBidding software. 
+WARNING: Some knowledge of bridge is really required to even understand
+this README, much less use the program. Search the web for bridge terms
+you might not understand.
+
+Table of contents:
+
+0. Installation and execution
+
+1. The interface
+    1.1 Case sensitivity
+    1.2 Default values
+    1.3 Main menu
+
+2. Bridge conventions
+    2.0 Names as non-unique identifiers
+    2.1 The convention file format ("conventionsv2")
+    2.2 Where to put conventions
+    2.3 How to make conventions
+    2.4 The system file format 
+    2.5 Where to put systems
+    2.6 How to make systems
+
+3. Creating players
+    3.1 Human Players
+    3.2 Computer players
+
+4. The hand generator
+    4.1 Generating random hands
+    4.2 Generating hands subject to criteria
+
+5. Bidding bridge with or against SLAMBidding robots      
+ 
+6. Plans for futher development
+    6.1 My current wishlist
+    6.2 Author contact for feature requests
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+0. Installation and execution
+    
+   SLAMbidding comprises a set of Python scripts which should run on any
+   Linux-like system with Python 2.5+ located at /usr/bin/python
+  
+    (For example, it should run without modification on cloud.cs50.net.) 
+  
+   With Python so configured, installing SLAMbidding only requires copying
+   the directory /home/sflicht/fp/ on cloud.cs50.net to any desired destination.
+   
+   Invoking SLAMbidding is accomplished via the command
+   
+        python interactivebidding.py
+        
+   From there, on-screen menus provide all the functionality.    
+
+1. The SLAMbidding interface
+
+    Before explaining the SLAMbidding interface in detail, two brief comments
+    on quirks of this interface:
+
+    1.1 Case sensitivity. 
+    
+    For now, commands and values are entered into the SLAMbidding program 
+    using the keyboard. (A GUI is among the proposed features for a future
+    version of the software.) In general, all commands and values are CASE 
+    SENSITIVE. You have been warned.
+    
+    1.2 Default values.
+    
+    Part of the reason case sensitivity is an issue is that SLAMbidding 
+    commands, when not understood by the program, generally default to a
+    predetermined value. If you encounter unexpected behavior, try repeating
+    your sequence of commands or value entries, being very careful with spelling
+    and case. 
+    
+    For reference, note that the format for bids which the program understands
+    is "PASS", "X", "XX", or "#Z" where # is a number from 1 to 7 and Z is a
+    strain, i.e. a character S, H, D, or C, or the two-character string NT.
+    
+    1.3 The Main Menu
+    
+    For reference, here is a list of the commands available from the main menu.
+    
+    In each case, the command is entered by typing one of the corresponding 
+    characters and pressing ENTER. NYI denotes "Not yet implemented" (see 6.1).
+    
+    ?:         Bring up this README
+    Q or q:    Quit the program
+    
+    H or h:    Create a new human player (see 3.1)
+    C or c:    Create a new computer player (see 3.2)
+    S or s:    View a list of currently created players
+        
+    N or n:    Create a new convention (obsolete *.conv format, see 2.1-2.3)
+    V or v:    View a list of conventions files in the /conventionsv2/ directory
+    M or m:    Modify an existing convention (NYI)
+    
+    S or s:    Create a new system (*.system format, see 2.4) (NYI)
+    T or t:    View a list of system files in the /systems/ directory
+    F or f:    Modify an existing system (NYI)
+    
+    G or g:    Generate a random bridge hand
+    R or r:    Generate a random bridge hand with some constraints on the hand,
+                specified by the user.
+    
+    B or b:    Bid a randomly generated hand of bridge with four already-created
+                players
+               
+
+2. SLAMbidding Bridge Conventions and Bidding Systems
+    
+    In this section we describe how to work with bridge conventions and bidding
+    systems with SLAMbidding. 
+
+                One note on terminology: for our purposes a "convention"
+    refers to ANY bidding agreement, including a natural one. All bidding needs
+    to be explicitly encoded for SLAMbidding's automatic bidders to use it, even
+    bids which would be considered "natural methods" if used by human players.
+    So "convention" has quite a broad meaning for us.
+    
+    2.0 Names as (non-unique) identifiers
+    
+    One of the charming quirks (or, depending on your perspective, annoying 
+    idiosyncracies)  of bridge is that one convention or bidding system may have
+    many names, like the Capaletti/Hamilton system of overcalls of the 
+    opponents' 1NT opening.  Because of this, SLAMbidding works so that a given
+    file (*.conv for a convention, *.system for a system) stores a single 
+    convention or system, along with whatever names are used to refer to it.
+    When working with conventions and systems, they are always kept track of 
+    via their user-provided names (arbitrary ASCII strings). You need NOT create
+    separate files for each of the possible names; simply provide the 
+    alternative names as prompted, or add them at a later date with the (yet to
+     be implemented) modification commands.
+    
+    2.1 The Convention File Format
+    
+    In the directory containing SLAMbidding are two subdirectories, 
+    /conventions/ and /conventionsv2/. The former is legacy and will be phased 
+    out in subsequent versions of this software. The latter contains conventions
+    in the official SLAMbidding convention file format, which itself is 
+    described in  /conventionsv2/conventionsv2.txt. We summarize the content 
+    of that document  (which is not really fit for public consumption) here.
+
+    A *.conv file is simply an XML file with root object tagged "convention" 
+    and a  specified format for the hierarchy of subobjections. The allowable 
+    subobject tags  are "name" (non-unique), "parent" (non-unique), and 
+    "actions" (unique). In the text fields of any name elements go the name(s)
+    by which the convention in question is known. In the text field of any
+    parent elements go the name(s) by  which conventions which invoke the 
+    conventions in question are known.
+    
+    The actions element contains any number of action subelements.
+    Action elements should have a tag in the list
+    "open", "raise", "invite", "accept", "decline", "ask", "tell",
+        "pass", "signoff", "relay", "relaybid", "overcall", "balance",
+        "advance", "competitiveraise"
+    
+    Any action must have an attribute "bid" with value equal to a valid 
+    SLAMbidding bid string (.e.g "PASS" or "1NT"). An "open" action element
+    should have an attribute "seats" containing a substring of "1234" as its 
+    values (although the character order is irrelevant) specifying in which
+    seats the opening is allowed (testing for this is not yet implemented).
+    
+    If the action's bid attribute is not "PASS", the action _should_ (but 
+    need not) contain sub-action elements specifying all the bids that can
+    be made in response to the given action's bid, and the hands required
+    for making those bids.  However, within this list, subactions can be 
+    "convention" elements of the form <convention name="convname" />. 
+    When the SLAMbidding parses a file containing such a subelement, it
+    automatically loads a *.conv file containing a convention with
+    convname as (one of) its name(s), and substitutes for the <convention />
+    subelement all the actions listed in that *.conv file.  We say the 
+    original convention is the "parent" of the given "subconvention".
+    
+    Any action element proper must contain a subelement <handtypes></handtypes>
+    containing subelements with the type tag. Each such subelement <type>
+    specifies one set of criteria which a hand may satisfy in order for the 
+    given action to be allowed by the bidding system. Multiple <type>s are 
+    allowed so that a bid can show a disjunciton of possible hand types. An
+    empty collection of <type>s means the action will never be taken.
+    On the other hand, an empty <type /> subelement of <handtypes> means that
+    ANY hand will be able to take the given action. 
+    
+    Between these extremes, a <type> element in general may contain
+    subelements tagged "HCP", "spades", "hearts", "diamonds", or "clubs".
+    (At most one of each.) Each of these subelements has an attribute
+    "min" specifying a minimum HCP or length in the suit, and likewise
+    an attribute "max". If these attributes are not set, SLAMbidding uses
+    obvious (weak) default values. If a given subelement does not occur in a 
+    type, SLAMbidding will assume that subelement is irrelevant in checking 
+    whether a hand satisfies the given type. The suit elements also support 
+    "honors(min|max)" and "controls(min|max)" tags specifying
+    a minimum (resp. maximum) number of AKQJT honors in the suit
+    and a minimum (reps. maximum) number of (A=2, K=1) controls in the suit.
+    
+    In a future version of the program, <support>, <stopper>, and <vul>
+    elements will also be supported, specifying support points
+    (with an attribute specifying which suit is trump), stoppers and half-
+    stoppers (with an attribute specifying which suit the stopper is in), and
+    vulnerability requirements. For an example of all this, suppose we want to 
+    encode the criteria for a conservative, vulnerable weak 2-bid in spades.
+    We would write this action as
+    <open bid="2S" seat="123">
+        <handtypes>
+            <type>
+                <vul we="1" />
+                <HCP min="5" max="10" />
+                <spades min="6" max="6" honorsmin="3" controlsmin="1" />
+                <hearts max="3" />
+            </type>
+            <!-- more hand types go here -->
+        </handtypes>
+        <!-- responses, e.g. a feature-asking 2NT bid, go here -->
+   </open>
+
+    This example says that one possible hand for preempting 2S in
+    first, second, or third seat is a spade suit of exactly six cards
+    with 3 of the top 5 cards in the suit, better than the QJT (i.e.
+    at least 1 control in the suit), and no 4 card heart suit.
+
+    The final fact to know about the convention file format is that
+    subactions are ordered by priority. This is important when conventions
+    are specified with very broad criteria of applicability. For example,
+    suppose Jacoby Transfers are encoded to be applicable whenever
+    responder to a 1NT opening has a 5 card major. Now suppose one wishes
+    to add Texas Transfers to this system, so that with a 6 card major
+    and the appropriate strength, a Texas rather than Jacoby transfer iwll
+    be made. In this case, one must put the <convention name="Texas" />
+    subelement of the 1NT opening action BEFORE the 
+    <convention name="Jacoby transfer" />    element. This is because 
+    SLAMbidding tests responses IN ORDER
+    until it finds an applicable one, which it then performs.
+    
+    2.2 Where to put conventions
+    
+    Put them in /conventionsv2/ for now. This will change in future versions.
+    Put old-style conventions in /conventions/. (You can examine the files
+    in that directory to see th eoriginal *.conv file XML format.)
+
+    2.3 How to make conventions
+    
+    For now, the only way to make conventionsv2 files is by hand. By examining
+    auto1.conv and auto2.conv in /conventionsv2/, which encode
+    strong 1NT openings and stayman sequences, respectively, it shouldn't be too
+    hard to see how to do this. But it is a laborious process, which is why
+    I haven't included many conventions in the standard distribution.
+    
+    Not yet implemented is a utility for making this process more user friendly.
+    However, such a utility has been implemented for the old *.conv format,
+    which you can use with the command 'N' or 'n' from the main menu. In a 
+    future version, this utility will be reimplemented for the new format.
+    
+    Useful for making and viewing XML files of any sort is the python script
+    prettyprint.py included in the /conventionsv2/ folder. It is made executable
+    right now, so invoking it with 
+          
+          prettyprint.py <infile>
+    
+    will take any valid XML file infile and output a version which is indented
+    and line broken appropriately. The output file is <infile>.pretty.
+    If you want to restore the compact (no whitespace) XML version, should you 
+    lose it, you can use the commands
+    
+    awk '$1=$1' infile > newfile
+    cat newfile | tr -d '\n' > outfile
+    
+    where infile is the pretty-printed filename and outfile the output filename.
+    
+    2.4 The system file format
+    
+    Right now, a *.system file is simply an XML file with root element of
+    tagname "system". The root can contain any number of <name> subelements,
+    much like with *.conv files, and any number of <convention> subelements.
+    The convention subelements' text fields specify a name for the convention
+    being referenced. 
+    
+    Right now, only conventions with no parents (those capable of initiating
+    bidding sequences with partner, rather than simply continuing them; 
+    e.g. yes "strong 1NT", but no "stayman") really need to be included 
+    in a *.system file. This is because when a system is loaded by SLAMbidding,
+    the computer parses the file, finds all the parentless conventions,
+    and then converts them to bidding sequences. The conversion process simply
+    strips them of useless metadata like names and extraneous elements, and 
+    substitutes in all subconventions. However, a future versoin of this 
+    software should require that *.system fields have a hierarchical 
+    organization which reflects the parent-child relationships among 
+    conventions.
+
+    2.5 Where to put systems
+    
+    Why, in the /systems/ folder, of course!
+    
+    2.6 How to make systems
+    
+    Right now, these must be made by hand using any text editor. These files
+    tend to be much smaller than *.conv files, so the process is less laborious.
+    A future version of SLAMbidding will provide a utility for automating this 
+    process.
+    
+3. Creating Players
+
+    3.1 Creating human players
+    
+    To make a new human player, type "H" or "h" at the main menu.
+    Enter the player's name and hit ENTER. That's all there is to it!
+    Human players' bids must be entered at the command line when they
+    participate in SLAMbidding auctions.
+    
+    3.2 Creating computer players
+    
+    To make a new computer player, type "C" or "c" at the main menu.
+    Enter the player's name, then as prompted enter a system name.
+    The bidding system will be loaded automatically.
+    Computer players' bids will be made automatically, with verbose output
+    reflecting their reasoning, when they participate in SLAMbidding auctions.
+    
+    In a future version of this software, *.player files
+    will allow human and computer players to be stored across
+    sessions of interactive bidding, so that this process needn't
+    be repeated every time you start SLAMbidding.
+    
+    A list of current human and computer players (and their types)
+    can be seen by typing "S" or "s" at the main menu.
+    
+4. The Hand Generator
+
+    SLAMbidding includes a utility for generating random bridge hands.
+    This is useful for testing the automatic bidding agents, as well as
+    for developing new conventions and bidding systems.
+    
+    4.1 Generating wholly random hands
+    
+    Press "G" or "g" at the main menu to generate a random hand.
+    
+    4.2 Generating random hands subject to criteria
+    
+    Press "R" or "r" at the main menu to generate a random hand
+    subject to user-specified criteria. Simply follow the onscreen instructions,
+    taking care to observe the conventions noted in 1.1-1.2
+    
+    These features can also be used in conjunction with the interactive
+    bidding feature; see Section 5.
+    
+5. Bidding bridge hands with human and computer bidding agents
+
+    To bid randomly generated bridge hands (a la the G/g and R/r commands)
+    with human and/or computer agents, first create the agents as necessary
+    (see section 3) and then type "B" or "b" at the main menu.
+    
+    Enter the names of the agents who will bid in  each seat, and continue
+    following onscreen instructions.
+    
+    When the auction concludes, some elementary statistics on the hand will be 
+    given.
+    
+6.Plans for further development
+
+    6.1 Wishlist / TODO list
+    
+    6.1.1 UI improvements
+        6.1.1.1 Improve user-friendliness
+            For example, remove the case-sensitivity that can be so annoying.
+        6.1.1.2 Implement a GUI
+   
+    6.1.2 Missing / Broken features
+        6.1.2.1 Implement modification of conventions
+        6.1.2.2 Implement modification of systems
+        6.1.2.3 Implement the "make a new system" feature
+        6.1.2.4 Re-implement the "make a new convention" feature
+            to reflect the conventionsv2 specification
+   
+    6.1.3 Extensions of the main bidding algorithm
+        6.1.3.1 Test for "seats" when deciding whether to open
+        6.1.3.2 Add support for <support> and <stopper> and <vul> subelements
+            of <type> elements
+    
+    6.1.4 Design improvements
+        6.1.4.1 Modify the *.system file format specification to require
+            that ALL conventions (not just top-level conventions) in a 
+            system be included. Also make the hierarchical structure
+            of the system file reflect parent-child relationships
+            among conventions in the system
+
+    6.2. Author contact for bug reports and feature requests
+
+         Please email any suggestions to 
+
+                samlichtenstein@gmail.com.
+
+         Thanks!
