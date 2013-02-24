@@ -1,0 +1,599 @@
+<convention parent="strong 1NT">
+  <name>stayman</name>
+  <name>Stayman</name>
+  <actions>
+    <ask bid="2C" over="PASS">
+      <handtypes>
+        <type>
+          <HCP min="8" />
+          <spades max="4" min="4" />
+          <hearts max="4" />
+        </type>
+        <type>
+          <HCP min="8" />
+          <hearts max="4" min="4" />
+          <spades max="4" />
+        </type>
+        <type>
+          <HCP min="10" />
+          <hearts max="4" min="4" />
+          <spades max="5" min="5" />
+        </type>
+        <type>
+          <HCP min="10" />
+          <hearts max="5" min="5" />
+          <spades max="4" min="4" />
+        </type>
+      </handtypes>
+      <tell bid="2D" over="PASS, X">
+        <handtypes>
+          <type>
+            <spades max="3" />
+            <hearts max="3" />
+          </type>
+        </handtypes>
+        <invite bid="2NT" over="PASS, X">
+          <handtypes>
+            <type>
+              <HCP max="9" />
+            </type>
+          </handtypes>
+          <decline bid="PASS" over="all">
+            <handtypes>
+              <type>
+                <HCP max="15" />
+              </type>
+            </handtypes>
+          </decline>
+          <accept bid="3NT" over="all">
+            <handtypes>
+              <type>
+                <HCP min="16" />
+              </type>
+            </handtypes>
+          </accept>
+        </invite>
+        <ask bid="3H" over="all">
+          <handtypes>
+            <type>
+              <hearts min="5" />
+            </type>
+          </handtypes>
+          <tell bid="3NT" over="PASS">
+            <handtypes>
+              <type>
+                <hearts max="2" />
+              </type>
+            </handtypes>
+            <pass bid="PASS" over="all">
+              <handtypes>
+                <type />
+              </handtypes>
+            </pass>
+          </tell>
+          <tell bid="4H" over="all">
+            <handtypes>
+              <type>
+                <hearts min="3" />
+              </type>
+            </handtypes>
+          </tell>
+        </ask>
+        <ask bid="3S" over="all">
+          <handtypes>
+            <type>
+              <spades min="5" />
+            </type>
+          </handtypes>
+          <tell bid="3NT" over="PASS">
+            <handtypes>
+              <type>
+                <spades max="2" />
+              </type>
+            </handtypes>
+            <pass bid="PASS" over="all">
+              <handtypes>
+                <type />
+              </handtypes>
+            </pass>
+          </tell>
+          <tell bid="4S" over="all">
+            <handtypes>
+              <type>
+                <spades min="3" />
+              </type>
+            </handtypes>
+          </tell>
+        </ask>
+        <signoff bid="3NT" over="PASS">
+          <handtypes>
+            <type>
+              <HCP min="10" />
+            </type>
+          </handtypes>
+          <pass bid="PASS" over="all">
+            <handtypes>
+              <type />
+            </handtypes>
+          </pass>
+        </signoff>
+      </tell>
+      <tell bid="2H" over="all">
+        <handtypes>
+          <type>
+            <hearts min="4" />
+          </type>
+        </handtypes>
+        <invite bid="2NT" over="PASS">
+          <handtypes>
+            <type>
+              <hearts max="3" />
+              <HCP max="9" />
+            </type>
+          </handtypes>
+          <accept bid="3NT" over="all">
+            <handtypes>
+              <type>
+                <HCP min="16" />
+              </type>
+            </handtypes>
+            <pass bid="PASS" over="all">
+              <handtypes>
+                <type />
+              </handtypes>
+            </pass>
+          </accept>
+          <decline bid="PASS" over="all">
+            <handtypes>
+              <type>
+                <HCP max="15" over="all" />
+              </type>
+            </handtypes>
+          </decline>
+        </invite>
+        <invite bid="3H" over="all">
+          <handtypes>
+            <type>
+              <hearts min="4" />
+              <HCP max="9" />
+            </type>
+          </handtypes>
+          <accept bid="4H" over="all">
+            <handtypes>
+              <type>
+                <HCP min="16" />
+              </type>
+            </handtypes>
+            <pass bid="PASS" over="all">
+              <handtypes>
+                <type />
+              </handtypes>
+            </pass>
+          </accept>
+          <decline bid="PASS" over="all">
+            <handtypes>
+              <type>
+                <HCP max="15" over="all" />
+              </type>
+            </handtypes>
+          </decline>
+        </invite>
+        <signoff bid="3NT" over="PASS">
+          <handtypes>
+            <type>
+              <hearts max="3" />
+              <HCP min="10" />
+            </type>
+          </handtypes>
+          <pass bid="PASS" over="ALL">
+            <handtypes>
+              <type>
+                <spades max="3" />
+              </type>
+            </handtypes>
+          </pass>
+          <correct bid="4S" over="all">
+            <handtypes>
+              <type>
+                <spades min="4" />
+              </type>
+            </handtypes>
+            <pass bid="PASS" over="all">
+              <handtypes>
+                <type />
+              </handtypes>
+            </pass>
+          </correct>
+        </signoff>
+        <signoff bid="4H" over="all">
+          <handtypes>
+            <type>
+              <hearts min="4" />
+              <HCP min="10" />
+            </type>
+          </handtypes>
+          <pass bid="PASS" over="all">
+            <handtypes>
+              <type />
+            </handtypes>
+          </pass>
+        </signoff>
+      </tell>
+      <tell bid="2S" over="PASS, X, 2D">
+        <handtypes>
+          <type>
+            <spades min="4" />
+            <hearts max="3" />
+          </type>
+        </handtypes>
+        <invite bid="2NT" over="PASS">
+          <handtypes>
+            <type>
+              <spades max="3" />
+              <HCP max="9" />
+            </type>
+          </handtypes>
+          <accept bid="3NT" over="all">
+            <handtypes>
+              <type>
+                <HCP min="16" />
+              </type>
+            </handtypes>
+          </accept>
+          <decline bid="PASS" over="all">
+            <handtypes>
+              <type>
+                <HCP max="15" over="all" />
+              </type>
+            </handtypes>
+          </decline>
+        </invite>
+        <invite bid="3S" over="all">
+          <handtypes>
+            <type>
+              <spades min="4" />
+              <HCP max="9" />
+            </type>
+          </handtypes>
+          <accept bid="4S" over="all">
+            <handtypes>
+              <type>
+                <HCP min="16" />
+              </type>
+            </handtypes>
+          </accept>
+          <decline bid="PASS" over="all">
+            <handtypes>
+              <type>
+                <HCP max="15" over="all" />
+              </type>
+            </handtypes>
+          </decline>
+        </invite>
+        <signoff bid="3NT" over="PASS">
+          <handtypes>
+            <type>
+              <spades max="3" />
+              <HCP min="10" />
+            </type>
+          </handtypes>
+          <pass bid="PASS" over="ALL">
+            <handtypes>
+              <type />
+            </handtypes>
+          </pass>
+        </signoff>
+        <signoff bid="4S" over="all">
+          <handtypes>
+            <type>
+              <spades min="4" />
+              <HCP min="10" />
+            </type>
+          </handtypes>
+          <pass bid="PASS" over="all">
+            <handtypes>
+              <type />
+            </handtypes>
+          </pass>
+        </signoff>
+      </tell>
+    </ask>
+    <ask bid="X" over="2C">
+      <handtypes>
+        <type>
+          <HCP min="8" />
+          <spades max="4" min="4" />
+          <hearts max="4" />
+        </type>
+        <type>
+          <HCP min="8" />
+          <hearts max="4" min="4" />
+          <spades max="4" />
+        </type>
+        <type>
+          <HCP min="10" />
+          <hearts max="4" min="4" />
+          <spades max="5" min="5" />
+        </type>
+        <type>
+          <HCP min="10" />
+          <hearts max="5" min="5" />
+          <spades max="4" min="4" />
+        </type>
+      </handtypes>
+      <tell bid="2D" over="PASS, XX">
+        <handtypes>
+          <type>
+            <spades max="3" />
+            <hearts max="3" />
+          </type>
+        </handtypes>
+        <invite bid="2NT" over="PASS, XX">
+          <handtypes>
+            <type>
+              <HCP max="9" />
+            </type>
+          </handtypes>
+          <decline bid="PASS" over="all">
+            <handtypes>
+              <type>
+                <HCP max="15" />
+              </type>
+            </handtypes>
+          </decline>
+          <accept bid="3NT" over="all">
+            <handtypes>
+              <type>
+                <HCP min="16" />
+              </type>
+            </handtypes>
+          </accept>
+        </invite>
+        <convention name="Smolen" />
+        <ask bid="3H" over="all">
+          <handtypes>
+            <type>
+              <hearts min="5" />
+            </type>
+          </handtypes>
+          <tell bid="3NT" over="PASS">
+            <handtypes>
+              <type>
+                <hearts max="2" />
+              </type>
+            </handtypes>
+            <pass bid="PASS" over="all">
+              <handtypes>
+                <type />
+              </handtypes>
+            </pass>
+          </tell>
+          <tell bid="4H" over="all">
+            <handtypes>
+              <type>
+                <hearts min="3" />
+              </type>
+            </handtypes>
+          </tell>
+        </ask>
+        <ask bid="3S" over="all">
+          <handtypes>
+            <type>
+              <spades min="5" />
+            </type>
+          </handtypes>
+          <tell bid="3NT" over="PASS">
+            <handtypes>
+              <type>
+                <spades max="2" />
+              </type>
+            </handtypes>
+            <pass bid="PASS" over="all">
+              <handtypes>
+                <type />
+              </handtypes>
+            </pass>
+          </tell>
+          <tell bid="4S" over="all">
+            <handtypes>
+              <type>
+                <spades min="3" />
+              </type>
+            </handtypes>
+          </tell>
+        </ask>
+        <signoff bid="3NT" over="PASS">
+          <handtypes>
+            <type>
+              <HCP min="10" />
+            </type>
+          </handtypes>
+          <pass bid="PASS" over="all">
+            <handtypes>
+              <type />
+            </handtypes>
+          </pass>
+        </signoff>
+      </tell>
+      <tell bid="2H" over="all">
+        <handtypes>
+          <type>
+            <hearts min="4" />
+          </type>
+        </handtypes>
+        <invite bid="2NT" over="PASS">
+          <handtypes>
+            <type>
+              <hearts max="3" />
+              <HCP max="9" />
+            </type>
+          </handtypes>
+          <accept bid="3NT" over="all">
+            <handtypes>
+              <type>
+                <HCP min="16" />
+              </type>
+            </handtypes>
+            <pass bid="PASS" over="all">
+              <handtypes>
+                <type />
+              </handtypes>
+            </pass>
+          </accept>
+          <decline bid="PASS" over="all">
+            <handtypes>
+              <type>
+                <HCP max="15" over="all" />
+              </type>
+            </handtypes>
+          </decline>
+        </invite>
+        <invite bid="3H" over="all">
+          <handtypes>
+            <type>
+              <hearts min="4" />
+              <HCP max="9" />
+            </type>
+          </handtypes>
+          <accept bid="4H" over="all">
+            <handtypes>
+              <type>
+                <HCP min="16" />
+              </type>
+            </handtypes>
+            <pass bid="PASS" over="all">
+              <handtypes>
+                <type />
+              </handtypes>
+            </pass>
+          </accept>
+          <decline bid="PASS" over="all">
+            <handtypes>
+              <type>
+                <HCP max="15" over="all" />
+              </type>
+            </handtypes>
+          </decline>
+        </invite>
+        <signoff bid="3NT" over="PASS">
+          <handtypes>
+            <type>
+              <hearts max="3" />
+              <HCP min="10" />
+            </type>
+          </handtypes>
+          <pass bid="PASS" over="ALL">
+            <handtypes>
+              <type>
+                <spades max="3" />
+              </type>
+            </handtypes>
+          </pass>
+          <correct bid="4S" over="all">
+            <handtypes>
+              <type>
+                <spades min="4" />
+              </type>
+            </handtypes>
+            <pass bid="PASS" over="all">
+              <handtypes>
+                <type />
+              </handtypes>
+            </pass>
+          </correct>
+        </signoff>
+        <signoff bid="4H" over="all">
+          <handtypes>
+            <type>
+              <hearts min="4" />
+              <HCP min="10" />
+            </type>
+          </handtypes>
+          <pass bid="PASS" over="all">
+            <handtypes>
+              <type />
+            </handtypes>
+          </pass>
+        </signoff>
+      </tell>
+      <tell bid="2S" over="PASS, XX, 2D">
+        <handtypes>
+          <type>
+            <spades min="4" />
+            <hearts max="3" />
+          </type>
+        </handtypes>
+        <invite bid="2NT" over="PASS">
+          <handtypes>
+            <type>
+              <spades max="3" />
+              <HCP max="9" />
+            </type>
+          </handtypes>
+          <accept bid="3NT" over="all">
+            <handtypes>
+              <type>
+                <HCP min="16" />
+              </type>
+            </handtypes>
+          </accept>
+          <decline bid="PASS" over="all">
+            <handtypes>
+              <type>
+                <HCP max="15" over="all" />
+              </type>
+            </handtypes>
+          </decline>
+        </invite>
+        <invite bid="3S" over="all">
+          <handtypes>
+            <type>
+              <spades min="4" />
+              <HCP max="9" />
+            </type>
+          </handtypes>
+          <accept bid="4S" over="all">
+            <handtypes>
+              <type>
+                <HCP min="16" />
+              </type>
+            </handtypes>
+          </accept>
+          <decline bid="PASS" over="all">
+            <handtypes>
+              <type>
+                <HCP max="15" over="all" />
+              </type>
+            </handtypes>
+          </decline>
+        </invite>
+        <signoff bid="3NT" over="PASS">
+          <handtypes>
+            <type>
+              <spades max="3" />
+              <HCP min="10" />
+            </type>
+          </handtypes>
+          <pass bid="PASS" over="all">
+            <handtypes>
+              <type />
+            </handtypes>
+          </pass>
+        </signoff>
+        <signoff bid="4S" over="all">
+          <handtypes>
+            <type>
+              <spades min="4" />
+              <HCP min="10" />
+            </type>
+          </handtypes>
+          <pass bid="PASS" over="all">
+            <handtypes>
+              <type />
+            </handtypes>
+          </pass>
+        </signoff>
+      </tell>
+    </ask>
+  </actions>
+</convention>

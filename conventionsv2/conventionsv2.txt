@@ -1,0 +1,115 @@
+In v2 of the convention fileformat, we adopt a different approach, that of
+user-specified "sequences". Making the conventionmaker for this version will
+be harder, but on the other hand, the XML files are more human-readable.
+
+For now, this is tailored to non-competitive auction sequences, although there
+is some flex built into the design for future extension to competitive 
+sequences.
+
+as before, the root is the convention element
+
+the name elements give user-specified names for the convention
+
+the actions element contains the possible actions in the convention
+
+action elements must have 
+    1) an attribute bid="<some valid call in std format>"
+    2) if bid is not "PASS", a list of actions that can be taken response
+        to the given action. There must be at least one action, which can
+        be a pass element (bid="PASS") if necessary. In the list of actions
+        can be put convention elements with name attributes, which are
+        stand-ins for other convention files (the entire list of actions
+        in those files is substituted).
+    3) an element handtypes containing at least one subelement type
+        
+        each type element may contain elements 
+            HCP, spades, hearts, diamonds, and clubs, 
+                each optionally  with attributes min and max. 
+        If no min or max is specified for a given element, the obvious default
+        is used. So <handtypes><type /></handtypes> means that the action
+        will be taken with ANY hand type, while <handtypes /> means that the
+        action is simply NEVER taken. 
+        Multiple types allow for bids which show a disjunction of 
+        possible hand types, e.g. a 2C response to 1NT.
+
+            POSSIBLE EXTENSION: allow <support> elements with min and max
+                attributes, plus a trump attribute ('S','H','D', or 'C')
+                specifying the trump suit for computation of support points
+            
+            POSSIBLE EXTENSION: allow <stopper> element with suit
+                and flag attributes (suit is the suit we're asking about
+                a stopper for, flag is "0" or "1" depending on whether
+                there is a stopper in the hand. ditto for <halfstopper>
+            
+            POSSIBLE EXTENSION: all <vul> elements with attributes "we"
+                and "they" (whose values are 0 for false and 1 for true)
+                
+            POSSIBLE EXTENSION: allow honorsmin and honorsmax attributes 
+                (out of 5 for AKQJT) and also controlsmin and controlsmax 
+                attributes (A=2, K=1) for each suit element in a type element.
+                So a vulnerable weak 2S suit quality specified as at least 6 cards in length, 
+                with 3 of the top 5 and not the QJT would be
+                <type>
+                    <vul we="1" />
+                    <HCP min="5" max="10" />
+                    <spades min="6" honorsmin="3" controlsmin="1"/>
+                </type>   
+                
+initially, the supported action elements are
+    1) open
+        extra attribute: seats, a string e.g. "134" specifying which seats
+            the opening is applicable in
+    CONSTRUCTIVE AUCTION ELEMENTS
+    2) raise
+    3) invite
+        must have subactions of type accept and decline (at least one of each)
+    4) accept
+    5) decline
+    6) ask
+        must have subactions of type tell
+    7) tell
+    8) pass
+    9) signoff
+    10) relay
+        extra attribute: relayto
+    11) relaybid
+    COMPETITIVE AUCTION ELEMENTS
+    12) overcall
+    13) balance
+    14) advance
+    15) competitiveraise
+
+all except open have an optional attribute "over"
+specifying which opponent bids the action remains valid over,
+i.e. a list of bids "PASS, X, 2C" etc. Defaults to "PASS". "all"
+abbreviates "all legal intermediate bids"
+
+
+questions:
+    how to deal with adding a convention that encroaches upon another?
+        e.g. Smolen and Texas on top of Stayman/transfers?
+    this is the question of prioritization. the ugly way
+        is simply to require the user to revise the definition
+        of stayman and transfers to exclude these hand types.
+        Whether this could straightforwardly be automated is hard to tell.
+        
+        ANSWER: put the actions in priority order! XML children are
+        ORDERED.
+
+        BUT: Make sure each possible call occurs in AT MOST ONE action element.
+        so the Smolen convention cannot contain the action of bidding 2C
+        (an ask) but must rather specify the subsequent bids with smolen hand type.
+        which means that Stayman (which DOES contain the 2C action) must
+        be tailored to include or not include Smolen.
+        hmmm
+
+
+for reference:
+remove tabs (those created as multiple " "s)
+while preserving all single " "s:
+    awk '$1=$1' infile > outfile
+    
+remove newlines:
+    cat auto2new.conv | tr -d '\n' > auto2.conv    
+    
+    

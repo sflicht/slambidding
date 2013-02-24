@@ -1,0 +1,329 @@
+TITLE
+
+SLAM Bridge Bidding System
+
+(N.B.: Adhering to the truism that a project is only as good as its acronym,
+the title stands for Sam Lichtenstein's AutoMagical Bridge Bidding System.)
+
+AUTHOR
+
+Sam Lichtenstein
+
+ABSTRACT
+
+This software, written in Python, provides (1) an XML structure for storing
+bridge bidding conventions in a machine-readable format, (2) a primitive AI
+capable of intelligently bidding bridge hands according to a user-specified
+set of bidding conventions, and (3) a system for generating random hands 
+subject to criteria, including criteria  specified by a set of bidding 
+conventions (for example, hands which will - in theory - lead to a particular 
+auction  sequence). Optionally, sitting atop this infrastructure there may eventually be 
+a nice web interface and the beginnings of an online database of bidding 
+systems.
+
+WHAT
+
+My project will be developed and run entirely on cloud.cs50.net. Here's the
+basic structure I have in mind.
+
+Phase I: Get the essential programs working.
+
+Here are the five Python scripts which will form the heart of the project.
+Everything will be executed from the command line, at this stage.
+
+bidder: This "backend" script allows the user to load a bidding system file,
+creating a computer bridge bidder capable of bidding hands according to that 
+system. As a tabula rasa, the computer understands at any given time the basic
+structure of the auction (who opened, who overcalled, etc.), the strength and 
+shape of its own hand, the features of strength and shape of its partner's and
+its opponents' hands which have so far been revealed by the bidding, whether
+a trump suit has been set, and several other elementary bidding components.
+On a more specialized level, the individual conventions, or system components, 
+making up the particular system file being used are XML objects specifying in 
+a more detailed way the rules the computer must follow when bidding. When 
+presented with alternatives which the rules do not decide, the computer makes 
+decisions pseudorandomly. It can even slightly stretch the truth to make a 
+"least of evils" bid (perhaps slightly misrepresenting one feature of its hand,
+but accurately describing other features), but it can only do so according to 
+weighting schemes specified by the user in the convention files.
+
+interactivebidding: The "frontend" script - mostly a command line UI and 
+interface to bidder.py - allows one or more human player to bid with one or 
+more computer bidders on randomly generated hands. 
+
+conventionmaker: This utility generates valid XML files containing the data for
+common conventions, with more specific details specified by the user, via an
+interactive commandline process. (This is meant to be extensible, ultimately:
+if someone encodes a "framework" for a convention in XML format, but certain 
+parameters depend on system context, this script will help the user insert
+a correct version of that convention into their computer bidding system. "Off
+the shelf" I will try to provide many of the basic system building blocks which
+make up Standard American Yellow Card, a popular collection of conventions 
+widely played in the U.S.)
+
+makesystem: This utility will generate a valid XML file specifying a bidding 
+system, helping the user select from among those convention files which have 
+already been generated.
+
+handgenerator: This utility will generate random bridge hands (in a very 
+barebones ASCII format) subject to user-specified criteria. Optionally, these 
+criteria can involve loading a bidding system file and specifying an auction 
+sequence one would like to see arise.
+
+Phase II: Make an improved, graphical, web-based UI for the basic scripts at 
+http://www.slambidding.com. (This will involve learning how to run Python
+scripts on the webserver...)
+
+Phase III: The possibilities for where to go from there are endless. Some goals 
+include:
+
+* Design a SQL database to allow users to create and contribute their
+own bidding convention and system files, and to brows the systems other have 
+made.
+
+* Make snazzy Javascript scripts to jazz up the interface further.
+
+* And more!
+
+Phase IV: ???
+
+Phase V: Profit!
+
+WHY
+
+I'm an avid bridge player. Bridge consists of two phases: (1) an auction, in 
+which a trump suit is set and number of tricks (out of 13) is determined which 
+the winner of the auction must win during the next phase (the play) in order 
+to be said to have made his contract. (2) The play, in which the winner of the 
+auction must attempt to take the requisite number of tricks.
+
+Computers are very good at part (2). The general strategy (called Monte Carlo 
+simulation) is to generate a collection of (usually 50-100) random hands which 
+are theoretically compatible with the given information contained in the 
+auction and the play so far. The computer then performs what is called a 
+"double-dummy analysis" of these hands -- i.e. it determines the optimal line 
+of play, as if it could see all four hands. Finally, it selects the line of 
+play on the current trick which led to the best result most often in the 
+sample hands it generated.
+
+Computers are less good at (1). As far as I know, most computer bridge systems 
+are hard-coded with one collection of bidding methods, or offer limited 
+customizability. Moreover, the computers I've bid with as a partner often lie 
+a lot. When they are stuck without a bid which accurately describes their
+hand, they often do something really stupid. Finally, being deterministic, they
+also tend to improvise poorly; for example, they'll decide too early that a 
+given hand should be played in a trump constract, and will take their partner 
+out of a perfectly good 3NT contract (in which, for the unitiated reading this,
+9 tricks must be taken by the declaring side, with no trump suit) and into a 
+4-level major suit contract on a poor seven-card fit. (My apologies if the 
+bridge lingo is obtuse.) 
+
+The inherently customizable nature of my project -- allowing for whatever 
+bidding systems the user has the time and inclination to encode into the
+(hopefully fairly clear) XML format -- is designed to remedy the lack of
+flexability in extant computer bidding systems which I alluded to above. To 
+rectify the issues surrounding computers' stupidity, the AI script's 
+rule-following algorithm uses a weighting scheme to determine which features 
+of a hand the computer  may and may not lie about. 
+
+Finally, the random hand generator is useful not only for testing the AI bidder
+but also as a utility in its own right. Human bridge players who design new 
+bidding systems and/or wish to practice rare auction sequences in the systems
+they play are often faced with the proble
+m of generating a sizable sample of 
+random hands subject to a set of criteria. There's no reason a computer should
+not be able to do this grunt work for them!
+
+HOW
+
+The programming paradigm that will be used for the main Python scripts is 
+OOP. Many of the basic classes will be used in several of the scripts. 
+
+Step 0, in some sense, is to implement a barebones UI, which will eventually 
+evolve into interactivebidding.py. In the short run, it's purpose is to create
+bidders and interact with them. (This can also be done using the interactive
+mode of the Python interpretter.)
+
+Step 1 is to the get a working version of the bidder.
+Here are some classes reflecting the starting point of my design for bidder.py 
+and interactivebidding.py (which are to be used, and hence designed, in tandem 
+with one another):
+
+# the basic auction class
+class Auction
+      round = 0                # how many rounds have gone by in the auction?
+      def __init__(self, dealer, NSvul, EWvul, bdnm):
+          self.dealer = dealer # who is dealer? N, S, E, or W
+          self.NSvul = NSvul   # are NS vulnerable?
+          self.EWvul = EWvul   # are EW vulnerable?
+          self.boardnum = bdnm # the board number, if any
+      # some methods to be written    
+      def tell(self)
+          # output the auction so far          
+      
+# the basic bridge suit class
+class suit
+      # initialized with an array of chars specifying the suit
+      def __init__(self, suit):
+          self.suit = suit
+      # some methods to be written    
+      def highcards(self)
+          # return an array of the high cards (9 through Ace) in the suit
+      def hcp(self)
+          # return high card points (A = 4, K = 3, Q = 2, J = 1) in the suit
+      def losers(self)
+          # return losing trick count (AKQ(x)=0, KQxx= 1, AQxx = 1.5, etc)
+                 
+# the basic bridge hand class
+class hand
+      # initialized with 4 suits
+      def __init__(self, spades, hearts, diamonds, clubs):
+          self.spades = suit(spades)
+          self.hearts = suit(hearts)
+          self.diamonds = suit(diamonds)
+          self.clubs = suit(clubs)
+      # implement same methods as for suit, combining the results for SHDC
+
+# the basic bridge player class
+class player
+      # a player has just a name, a hand, and an internal copy of the auction
+      # its most important method is bid(), which is run on the copy
+        # of the auction in global scope
+
+# the computer bridge bidder class (bids according to a specified system)
+class bidder(player)
+      # a bidder is a player with some extra structure
+        # an internal "guess" of its partner's hand
+        # flags for whether it thinks the current auction is game forcing,
+          # invitational, slammish, etc., for whether a trump suit has
+          # been established, for whether its partner's last bid is forcing,
+          # for whether the auction is competitive, etc.
+        # a bidding system file with XML specifying  the conventions being 
+          #played
+      # the methods are the crucial thing. again, the most important is bid(),
+         # but in this case, bid() will require a lot of behind-the-scenes work.
+        # Use the PyXML library and XPath to parse the bidding system file
+        # The basic pseudocode for the bid() algorithm is as follows:
+
+for each convention in the system
+    if the convention is applicable
+       make the bid specified by the convention
+    else if the convention is nearly applicable
+       flag it to come back to later in case no better bid turns up
+for each convention we flagged
+    compute an objective function to see how good a bid we can make
+    make the bid with the best value of the objective function
+if no convention was applicable
+    bid "naturally"
+
+The last comment deserves further remarks:
+    bidding naturally, in bridge, means abandoning systems and just trying
+to make a "descriptive" bid which tells partner something about your hand,
+hoping to find the right contract without using science.
+    For a computer, this means reverting to the default methods specified
+in the bid() function when no conventions are usable. These default
+methods will be highly limited, amounting to checking whether the bidder
+is forced (by partner's last action) to make some bid or not,
+checking whether the partnership should be in game (by estimating high
+card poitns), and attempting to place the contract based on these criteria.
+
+# the bidding convention class -- also used in conventionmaker
+class convention
+      # properties include tests for applicabilities, specified bids, etc.
+      # main methods include
+        # importing properties from XML
+        # exporting properties as XML
+        # applying tests
+        # returning specified actions
+# the bidding system class -- also used in makesystem
+class system
+      # basically a wrapper for a collection of conventions
+
+# the human bridge bidder class (waits for user input when it must bid)
+class humanbidder(player)
+      #a humanbidder is a player with methods for getting bid()'s from the UI
+      # TODO: design these methods (will depend on the UI design)
+
+Step 3: build the basic random hand generator -- needed for testing
+
+handgenerator.py design:
+
+1) get parameters from user
+1.5) perform elementary coherence checks to see whether parameters make sense
+2) pseudorandomly generate hands to match specified distributions (if any),
+generating pseudorandom distributions when things aren't specified
+3) perform facecard swaps until specified strength parameters are satisfied
+4) output the resulting hands as ASCII
+
+Step 4: begin conventionmaker and makesystem by coding the most elementary
+     conventions and systems. Here's an example of the type of XML format
+     I have in mind.
+
+<convention> 
+             <name>stayman</name>
+             <requires>
+                 <reqconv>strong_1NT_openers</reqconv>
+             </requires>
+             <forces>
+                 <subconv>stayman_response</subconv>
+             </forces>
+  <conditions>
+       <possible_auctions>
+         <auction> 1NT - (P) - ? </auction>
+         <auction> (P) - 1NT - (P) - ? </auction>
+         [[etc. list all uncontested auctions in which partner opens 1NT]]
+       </possible_auctions>
+       <required_hcp> 8 </required_hcp>
+       <required_shape> 
+          <at_least_one_of>
+                <spades> 4 </spades>
+                <hearts> 4 </hearts>
+          </at_least_one_of>
+       </required_shape>
+  </conditions>
+  <specified_action>
+        <bid> 2C </bid>
+  </specified_action> 
+</convention>
+
+<convention>
+            <name>stayman_response</name>
+            <requires>
+                <reqconv>stayman</reqconv>
+            </requires>
+<conditions>
+        <possible_auctions>
+          <auction> 1NT - (P) - 2C - (P) - ? </auction>
+          [[ etc....]]
+        </possible_auctions>
+</conditions>
+[[ note: specified actions listed in precedence order ]]
+<specified_action>
+        <condition>
+                <required_shape>
+                        <hearts> 4 </hearts>
+                </required_shape>
+        </condition>
+        <bid> 2H </bid>
+</specified_action>
+<specified_action>
+        <condition>
+                <required_shape>
+                        <spades> 4 </spades>
+                </required_shape>
+        </condition>
+        <bid> 2S </bid>
+</specified_action>
+<specified_action>
+        <bid> 2D </bid>
+</specified_action>
+</convention>
+
+Step 5: debug bidder and interactivebidding
+
+Step 6: make the interactive hand generator parse convention XML files
+
+Step 7: improve and expand on makesystem and conventionmaker
+(by supporting variations on a larger set of standard conventions)
+
+Steps 8 to infinity: web-interface UI and extensions

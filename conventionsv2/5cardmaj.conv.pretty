@@ -1,0 +1,388 @@
+<convention>
+  <name>5 card majors (SAYC)</name>
+  <actions>
+    <open bid="1C" seat="1234">
+      <handtypes>
+	<!-- balanced 1C openers -->
+	<type><!-- balanced minimum, longer C than D or 3-3 in minors -->
+	  <HCP min="12" max="14" />
+	  <spades min="2" max="4" />
+	  <hearts min="2" max="4" />
+	  <diamonds min="2" max="3" />
+	  <clubs min="3" />
+	</type>
+	<type> <!-- 2=2=4=5 mininum  -->
+	  <HCP min="12" max="14" />
+	  <spades min="2" max="2" />
+	  <hearts min="2" max="2" />
+	  <diamonds min="4" max="4" />
+	  <clubs min="5" max="5" />
+	</type>
+	<type>
+	  <!-- 1.5 NT opening, longer C than D or 3-3 in minors -->
+	  <HCP min="18" max="19" />
+	  <spades min="2" max="4" />
+	  <hearts min="2" max="4" />
+	  <diamonds min="2" max="3" />
+	  <clubs min="3" />
+	</type>
+	<type>
+	  <!-- 1.5 NT strength with 2=2=4=5 shape -->
+	  <HCP min="18" max="19" />
+	  <spades min="2" max="2" />
+	  <hearts min="2" max="2" />
+	  <diamonds min="4" max="4" />
+	  <clubs min="5" max="5" />
+	</type>
+	<!-- C 1-suiters and CD 2-suiters and SHC 3-suiter-->
+	<!-- rebiddable clubs (reverse with 4card Maj or long D and values) -->
+	<type> 
+	  <HCP min="12" max="21" />
+	  <spades max="1" />
+	  <hearts max="4" />
+	  <clubs min="7" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <spades max="4" />
+	  <hearts max="1" />
+	  <clubs min="7" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <spades max="4" />
+	  <hearts max="4" />
+	  <diamonds max="1" />
+	  <clubs min="7" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <spades max="1" />
+	  <hearts max="4" />
+	  <diamonds max="5" />
+	  <clubs min="6" max="6" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <clubs min="6" max="6" />
+	  <spades max="4" />
+	  <hearts max="1" />
+	  <diamonds max="5" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <clubs min="6" max="6" />
+	  <spades max="4" />
+	  <hearts max="4" />
+	  <diamonds max="1" />
+	</type>
+	<type> <!-- open 1C and rebid 1S -->
+	  <HCP min="12" max="21" />
+	  <spades max="4" />
+	  <hearts max="1" />
+	  <diamonds max="4" />
+	  <clubs min="5" max="5" />
+	</type>
+	<type> <!-- must have at least 1 4 card maj to rebid -->
+	  <!-- with 3=4=1=5 if it goes 1C - 1S - ? you must decide whether to
+	       bid 2C or 1NT or 2S -->
+	  <HCP min="12" max="21" />
+	  <spades max="4" />
+	  <hearts max="4" />
+	  <diamonds max="1" />
+	  <clubs min="5" max="5" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <spades min="4" max="4" />
+	  <hearts min="4" max="4" />
+	  <diamonds max="1" />
+	  <clubs min="4" max="4" />
+	</type>    
+      </handtypes>
+      <tell bid="1H">
+	<!-- 1C-1H-? -->
+	<handtypes>
+	  <type>
+	    <HCP min="6" />
+	    <hearts min="4" />
+	    <spades max="4" />
+	  </type>
+	  <type>
+	    <HCP min="4" />
+	    <hearts min="6" />
+	    <spades max="5" />
+	  </type>
+	  <type>
+	    <hearts min="7" />
+	  </type>
+	</handtypes>
+	<raise bid="2H">
+	  <!-- 1C-1H-2H-? auctions -->
+	  <handtypes>
+	    <type>
+	      <HCP max="15" />
+	      <hearts min="4" />
+	    </type>
+	  </handtypes>
+	  <invite bid="3H">
+	    <handtypes>
+	      <type>
+		<HCP min="10" max="11" />
+		<hearts min="5" />
+	      </type>
+	    </handtypes>
+	    <accept bid="4H">
+	      <handtypes>
+		<type>
+		  <HCP min="14" />
+		</type>
+	      </handtypes>
+	      <pass bid="PASS">
+		<handtypes>
+		  <type />
+		</handtypes>
+	      </pass>
+	    </accept>
+	    <decline bid="PASS">
+	      <handtypes>
+		<type>
+		  <HCP max="13" />
+		</type>
+	      </handtypes>
+	    </decline>
+	  </invite>
+	  <signoff bid="4H">
+	    <handtypes>
+	      <type>
+		<HCP min="12" max="16" />
+		<hearts min="5" />
+	      </type>
+	    </handtypes>
+	    <pass bid="PASS">
+	      <handtypes>
+		<type />
+	      </handtypes>
+	    </pass>
+	  </signoff>
+	</raise>
+	<tell bid="1S">
+	  <!-- 1C-1H-1S-? auctions -->
+	  <handtypes>
+	    <type>
+	      <hearts max="3" />
+	      <spades min="4" />
+	    </type>
+	  </handtypes>
+	  
+	</tell>
+	<tell bid="1NT">
+	  <handtypes>
+	    <type>
+	      <HCP max="14" />
+	      <hearts min="2" max="3" />
+	      <spades min="2" max="3" />
+	      <clubs min="2" max="5" />
+	      <diamonds min="2" max="4" />
+	    </type>
+	    
+	</tell>
+	<tell bid="2NT">
+	</tell>
+      </tell>
+      <tell bid="1S">
+      </tell>
+      <tell bid="1NT">
+      </tell>
+      <invite bid="2NT">
+      </invite>
+      <signoff bid="3NT">
+      </signoff>
+
+      <subconvention name="inverted minors" />
+      <raise bid="2C" over="all">
+	<handtypes>
+	  <type>
+	    <HCP min="6" max="9" />
+	    <hearts max="3" />
+	    <spades max="3" />
+	    <clubs min="5" />
+	  </type>
+	</handtypes>
+      </raise>
+      <invite bid="3C" over="PASS">
+	<handtypes>
+	  <type>
+	    <HCP min="10" max="12" />
+	    <hearts max="3" />
+	    <spades max="3" />
+	    <clubs min="5" />
+	  </type>
+	</handtypes>
+      </invite>
+
+
+
+    </open>
+    <open bid="1D" seat="1234">
+      <handtypes>
+	<!-- balanced 1D openers -->
+	<type><!-- balanced minimum, longer D than C or 4-4 in minors -->
+	  <HCP min="12" max="14" />
+	  <spades min="2" max="4" />
+	  <hearts min="2" max="4" />
+	  <diamonds min="4" />
+	  <clubs min="2" max="4" />
+	</type>
+	<type> <!-- 4=4=3=2 minimum -->
+	  <HCP min="12" max="14" />
+	  <spades min="4" max="4" />
+	  <hearts min="4" max="4" />
+	  <diamonds min="3" max="3" />
+	  <clubs min="2" max="2" />
+	</type>
+	<type>
+	  <!-- 1.5 NT opening, longer D than C or 4-4 in minors -->
+	  <HCP min="18" max="19" />
+	  <spades min="2" max="4" />
+	  <hearts min="2" max="4" />
+	  <diamonds min="4" />
+	  <clubs min="2" max="4" />
+	</type>
+	<type> <!-- 1.5 NT strength, 4=4=3=2  -->
+	  <HCP min="18" max="19" />
+	  <spades min="4" max="4" />
+	  <hearts min="4" max="4" />
+	  <diamonds min="3" max="3" />
+	  <clubs min="2" max="2" />
+	</type>
+	<!-- unbalanced 1D openers -->
+	<type> <!-- canape 1D then rebid 2C over a 1S response -->
+	  <HCP min="12" max="21" />
+	  <spades max="1" />
+	  <hearts max="4" />
+	  <diamonds max="4" />
+	  <clubs min="5" max="5" />
+	</type>
+	<!-- rebiddable D -->
+	<type> 
+	  <HCP min="12" max="21" />
+	  <spades max="1" />
+	  <hearts max="4" />
+	  <diamonds min="7" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <spades max="4" />
+	  <hearts max="1" />
+	  <diamonds min="7" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <spades max="4" />
+	  <hearts max="4" />
+	  <clubs max="1" />
+	  <diamonds min="7" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <spades max="1" />
+	  <hearts max="4" />
+	  <clubs max="6" />
+	  <diamonds min="6" max="6" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <diamonds min="6" max="6" />
+	  <spades max="4" />
+	  <hearts max="1" />
+	  <clubs max="6" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <diamonds min="6" max="6" />
+	  <spades max="4" />
+	  <hearts max="4" />
+	  <clubs max="1" />
+	</type>
+	<!-- biddable D -->
+	<type> <!-- open 1D and rebid 1S or 2C -->
+	  <HCP min="12" max="21" />
+	  <spades max="4" />
+	  <hearts max="1" />
+	  <clubs max="5" />
+	  <diamonds min="5" max="5" />
+	</type>
+	<type> <!-- open 1D and rebid 1H or 2C -->
+	  <HCP min="12" max="21" />
+	  <spades max="1" />
+	  <hearts max="4" />
+	  <clubs max="5" />
+	  <diamonds min="5" max="5" />
+	</type>
+	<type> <!-- open 1D and rebid 1M -->
+	  <HCP min="12" max="21" />
+	  <spades max="4" />
+	  <hearts max="4" />
+	  <clubs max="1" />
+	  <diamonds min="5" max="5" />
+	</type>
+	<!-- 4card D openers -->
+	<type>
+	  <HCP min="12" max="21" />
+	  <spades max="4" />
+	  <hearts  max="1" />
+	  <diamonds min="4" max="4" />
+	  <clubs max="4" />
+	</type>  
+	<type>
+	  <HCP min="12" max="21" />
+	  <spades max="1" />
+	  <hearts  max="4" />
+	  <diamonds min="4" max="4" />
+	  <clubs max="4" />
+	</type>  
+	<type>
+	  <HCP min="12" max="21" />
+	  <spades max="4" />
+	  <hearts  max="4" />
+	  <diamonds min="4" max="4" />
+	  <clubs max="1" />
+	</type>  
+      </handtypes>
+    </open>
+    <open bid="1H" seat="1234">
+      <handtypes>
+	<!-- open 1H with 5+ hearts and longer H than S -->
+	<type>
+	  <HCP min="12" max="21" />
+	  <hearts min="5" />
+	  <spades max="4" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <hearts min="6" />
+	  <spades max="5" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <hearts min="7" />
+	  <spades max="6" />
+	</type>
+      </handtypes>
+    </open>
+    <open bid="1S" seat="1234">
+      <handtypes>
+	<type>
+	  <HCP min="12" max="21" />
+	  <hearts max="5" />
+	  <spades min="5" />
+	</type>
+	<type>
+	  <HCP min="12" max="21" />
+	  <hearts max="6" />
+	  <spades min="6" />
+	</type>
+      </handtypes>
+  </actions>
+</convention>

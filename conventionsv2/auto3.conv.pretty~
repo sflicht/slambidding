@@ -1,0 +1,76 @@
+<convention parent="">
+  <name>5 card majors</name>
+  <actions>
+    <open bid="1C" seat="1234">
+      <handtypes>
+	<!-- balanced 1C openers -->
+	<type><!-- balanced minimum, longer C than D or 3-3 in minors -->
+	  <HCP min="12" max="14" />
+	  <spades min="2" max="4" />
+	  <hearts min="2" max="4" />
+	  <diamonds min="2" max="3" />
+	  <clubs min="3" />
+	</type>
+	<type> <!-- 2=2=4=5 mininum  -->
+	  <HCP min="12" max="14" />
+	  <spades min="2" max="2" />
+	  <hearts min="2" max="2" />
+	  <diamonds min="4" max="4" />
+	  <clubs min="5" max="5" />
+	<type>
+	  <!-- 1.5 NT opening, longer C than D or 3-3 in minors -->
+	  <HCP min="18" max="19" />
+	  <spades min="2" max="4" />
+	  <hearts min="2" max="4" />
+	  <diamonds min="2" max="3" />
+	  <clubs min="3" />
+	</type>
+	<type>
+	  <!-- 1.5 NT strength with 2=2=4=5 shape -->
+	  <HCP min="18" max="19" />
+	  <spades min="2" max="2" />
+	  <hearts min="2" max="2" />
+	  <diamonds min="4" max="4" />
+	  <clubs min="5" max="5" />
+	</type>
+	<!-- C 1-suiters (or 4=4=1=4) -->
+	<type>
+	  12+ HCP
+	  4- S
+	  4- H
+	  1- D
+	  4+ C
+	</type>
+	<type>
+	  12+ HCP
+	  4- S
+	  4- H
+	  2- D
+	  3+ C
+	</type>
+	<type>
+	  12+ HCP
+	  1- S
+	  4- H
+	  2-5 D
+	  6+ C
+	</type>
+	</type>
+	<type>
+	  12+ HCP
+	  1- S
+	  4- H
+	  2-6 D
+	  7+ C
+	</type>
+	
+	  
+      </handtypes>
+    </open>
+    <open bid="1D" seat="1234">
+    </open>
+    <open bid="1H" seat="1234">
+    </open>
+    <open bid="1S" seat="1234">
+  </actions>
+</convention>

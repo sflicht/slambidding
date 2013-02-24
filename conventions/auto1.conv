@@ -1,0 +1,1 @@
+<convention><name>strong 1NT</name><action bid="1NT"><PossibleAuctions><auction> </auction><auction>PASS</auction><auction>PASS, PASS</auction><auction>PASS, PASS, PASS</auction></PossibleAuctions><HCP max="17" min="15" /><shape><spades max="4" min="2" /><hearts max="4" min="2" /><diamonds max="6" min="2" /><clubs max="6" min="2" /></shape></action></convention>
